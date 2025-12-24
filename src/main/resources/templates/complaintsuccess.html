@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Submitted - CMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .popup {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .tracking-box {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .tracking-label {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .tracking-id {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            letter-spacing: 2px;
+        }
+        .message {
+            color: #555;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        button, a {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-track {
+            background: #2c3e50;
+            color: white;
+        }
+        .btn-track:hover {
+            background: #34495e;
+        }
+        .btn-dashboard {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        .btn-dashboard:hover {
+            background: #d5dbdb;
+        }
+    </style>
+</head>
+<body>
+    <div class="popup">
+        <div class="success-icon">✓</div>
+        <h1>Complaint Submitted Successfully!</h1>
+        <div class="tracking-box">
+            <div class="tracking-label">Your Tracking ID</div>
+            <div class="tracking-id" th:text="${trackingId}">CMS123456789</div>
+        </div>
+        <p class="message">
+            Please save this tracking ID. You can use it to track the status of your complaint.
+        </p>
+        <div style="background: #ecf0f1; padding: 20px; border-radius: 5px; margin: 20px 0; text-align: left;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">📧 Auto-Response</h3>
+            <p style="color: #555; line-height: 1.6;">
+                Thank you for submitting your complaint. Our team has received your request and will review it shortly. 
+                You will receive updates as we work on resolving your issue.
+            </p>
+            <div th:if="${suggestedSolution}" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #bdc3c7;">
+                <h4 style="color: #2c3e50; margin-bottom: 10px;">💡 Suggested Solution:</h4>
+                <p style="color: #555; line-height: 1.6;" th:text="${suggestedSolution}">Solution text</p>
+            </div>
+        </div>
+        <div class="button-group">
+            <a th:href="@{/complaint/track(userId=${userId})}" class="btn-track">Track Complaint</a>
+            <a th:href="@{/faq}" class="btn-dashboard" style="background: #3498db;">View FAQs</a>
+            <a th:href="@{/user/dashboard(userId=${userId})}" class="btn-dashboard">Go to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

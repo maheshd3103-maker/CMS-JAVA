@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users - CMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar-header {
+            padding: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom: 1px solid #34495e;
+        }
+        .nav-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        .nav-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-item:hover {
+            background: #34495e;
+        }
+        .nav-item.active {
+            background: #34495e;
+            border-left: 4px solid white;
+        }
+        .logout {
+            padding: 15px 20px;
+            background: #e74c3c;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .logout:hover {
+            background: #c0392b;
+        }
+        .main-content {
+            flex: 1;
+            background: #ecf0f1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #7f8c8d;
+        }
+        table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-collapse: collapse;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        td {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <div class="sidebar-header">Manager Dashboard</div>
+            <div class="nav-menu">
+                <div class="nav-item active" th:onclick="'window.location.href=\'' + @{/manager/users} + '\''">All Users</div>
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/complaint/active} + '\''">Active Complaints</div>
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/complaint/history} + '\''">Complaint History</div>
+            </div>
+        </div>
+        <div class="logout" th:onclick="'window.location.href=\'' + @{/} + '\''">Logout</div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>All Users</h1>
+            <p>List of all bank users</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Account Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.userId}">1001</td>
+                    <td th:text="${user.username}">John Doe</td>
+                    <td th:text="${user.email}">john.doe@email.com</td>
+                    <td th:text="${user.accountType}">Premium</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(users)}">
+                    <td colspan="4" style="text-align: center; padding: 30px; color: #7f8c8d;">
+                        No users found.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

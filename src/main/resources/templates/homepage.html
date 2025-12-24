@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #2c3e50;
+            color: white;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0,0,0,0.2);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .auth-buttons a {
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn-login {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-login:hover {
+            background: white;
+            color: #2c3e50;
+        }
+        .btn-signin {
+            background: white;
+            color: #2c3e50;
+        }
+        .btn-signin:hover {
+            background: #ecf0f1;
+        }
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 20px;
+            color: #ecf0f1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CMS</div>
+        <div class="auth-buttons">
+            <a th:href="@{/faq}" class="btn-login" style="margin-right: 10px;">FAQ</a>
+            <a th:href="@{/login}" class="btn-login">Login</a>
+            <a th:href="@{/signin}" class="btn-signin">Sign In</a>
+        </div>
+    </header>
+    <div class="hero">
+        <h1>Complaint Management System</h1>
+        <p>Efficiently manage and track all your complaints in one place</p>
+    </div>
+</body>
+</html>

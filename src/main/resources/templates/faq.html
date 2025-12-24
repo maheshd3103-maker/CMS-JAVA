@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - CMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .back-btn {
+            padding: 10px 20px;
+            background: white;
+            color: #2c3e50;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background: #ecf0f1;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .faq-item {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-question:hover {
+            background: #34495e;
+        }
+        .faq-answer {
+            padding: 20px;
+            display: none;
+            color: #555;
+            line-height: 1.6;
+        }
+        .faq-answer.active {
+            display: block;
+        }
+        .category {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2c3e50;
+        }
+        .icon {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">CMS - FAQ</div>
+        <a th:href="@{/}" class="back-btn">Back to Home</a>
+    </div>
+    
+    <div class="container">
+        <h1>Frequently Asked Questions</h1>
+        
+        <div class="category">🏦 Account Related</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>How do I check my account balance?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                Login to your account and navigate to the "Account Information" section in your dashboard. Your current balance will be displayed there.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>How do I update my account details?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                Currently, account details can be updated by contacting our support team through the complaint system. Select "Account Issue" as the complaint type.
+            </div>
+        </div>
+        
+        <div class="category">📝 Complaint Related</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>How do I raise a complaint?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                Login to your account, click on "Raise a Complaint" from the sidebar menu, fill in the complaint form with type, description, and issue date, then submit. You'll receive a tracking ID.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>How do I track my complaint?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                Go to "Track the Complaint" section, enter your tracking ID (e.g., CMS1234567890), and click "Track Complaint". You'll see the current status and details.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>What are the different complaint statuses?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <strong>Pending:</strong> Your complaint has been received and is awaiting review.<br>
+                <strong>In Progress:</strong> Our team is actively working on resolving your issue.<br>
+                <strong>Resolved:</strong> Your complaint has been successfully resolved.
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>How long does it take to resolve a complaint?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                Resolution time varies by complaint type. Typically, billing issues take 24-48 hours, technical issues 24 hours, and service issues 24-72 hours. You'll receive updates as we progress.
+            </div>
+        </div>
+        
+        <div class="category">💳 Billing Related</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>I see incorrect charges on my account. What should I do?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                Raise a complaint with type "Billing Issue" and provide details of the incorrect charges. Our billing team will investigate and provide a detailed breakdown within 24-48 hours.
+            </div>
+        </div>
+        
+        <div class="category">🔧 Technical Issues</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>I can't login to my account. What should I do?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                First, ensure you're using the correct email and password. Try clearing your browser cache or using a different browser. If the issue persists, raise a complaint with type "Technical Issue".
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>The website is not loading properly. What can I do?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                Try refreshing the page, clearing browser cache, or using a different browser. If the problem continues, raise a technical complaint with details about the issue.
+            </div>
+        </div>
+        
+        <div class="category">📞 Contact & Support</div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>How can I contact customer support?</span>
+                <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+                The best way to reach us is through the complaint system. Raise a complaint with your issue, and our team will respond promptly. You can track the progress using your tracking ID.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleAnswer(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.icon');
+            
+            answer.classList.toggle('active');
+            icon.textContent = answer.classList.contains('active') ? '-' : '+';
+        }
+    </script>
+</body>
+</html>

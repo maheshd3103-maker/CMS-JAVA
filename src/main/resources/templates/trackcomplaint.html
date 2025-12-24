@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Complaint - CMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar-header {
+            padding: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom: 1px solid #34495e;
+        }
+        .nav-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        .nav-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-item:hover {
+            background: #34495e;
+        }
+        .nav-item.active {
+            background: #34495e;
+            border-left: 4px solid white;
+        }
+        .logout {
+            padding: 15px 20px;
+            background: #e74c3c;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .logout:hover {
+            background: #c0392b;
+        }
+        .main-content {
+            flex: 1;
+            background: #ecf0f1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #7f8c8d;
+        }
+        .complaint-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .complaint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        .complaint-id {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        .status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .status.pending {
+            background: #f39c12;
+            color: white;
+        }
+        .status.in-progress {
+            background: #3498db;
+            color: white;
+        }
+        .status.resolved {
+            background: #27ae60;
+            color: white;
+        }
+        form {
+            max-width: 500px;
+        }
+        .detail-row {
+            margin-bottom: 20px;
+        }
+        .detail-label {
+            display: block;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #2c3e50;
+        }
+        button {
+            padding: 12px 30px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <div class="sidebar-header">CMS Dashboard</div>
+            <div class="nav-menu">
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/user/dashboard(userId=${userId})} + '\''">Account Information</div>
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/complaint/raise(userId=${userId})} + '\''">Raise a Complaint</div>
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/complaint/my-complaints(userId=${userId})} + '\''">My Complaints</div>
+                <div class="nav-item active">Track the Complaint</div>
+            </div>
+        </div>
+        <div class="logout" th:onclick="'window.location.href=\'' + @{/} + '\''">Logout</div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Track Complaints</h1>
+            <p>Enter your complaint ID to check status</p>
+        </div>
+        
+        <div class="complaint-card">
+            <form onsubmit="return trackComplaint(event)">
+                <div class="detail-row">
+                    <label for="complaintId" class="detail-label">Complaint ID:</label>
+                    <input type="text" id="complaintId" placeholder="Enter Complaint ID (e.g., CMS12345)" required>
+                </div>
+                <button type="submit">Track Complaint</button>
+            </form>
+        </div>
+
+        <div id="result" style="display:none;">
+            <div class="complaint-card">
+                <div class="complaint-header">
+                    <div class="complaint-id" id="displayId"></div>
+                    <div class="status" id="displayStatus"></div>
+                </div>
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ecf0f1;">
+                    <div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">Complaint Type:</div>
+                    <div id="displayType" style="color: #555; margin-bottom: 15px;"></div>
+                    <div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">Description:</div>
+                    <div id="displayDescription" style="color: #555;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function trackComplaint(event) {
+            event.preventDefault();
+            const complaintId = document.getElementById('complaintId').value.trim();
+            const result = document.getElementById('result');
+            const displayId = document.getElementById('displayId');
+            const displayStatus = document.getElementById('displayStatus');
+            
+            fetch('/complaint/track/' + complaintId)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Not found');
+                    }
+                    return response.json();
+                })
+                .then(complaint => {
+                    displayId.textContent = 'Tracking ID: ' + complaint.trackingId;
+                    let statusClass = complaint.status.toLowerCase().replace(' ', '-');
+                    displayStatus.className = 'status ' + statusClass;
+                    displayStatus.textContent = complaint.status;
+                    document.getElementById('displayType').textContent = complaint.complaintType;
+                    document.getElementById('displayDescription').textContent = complaint.complaintDescription;
+                    result.style.display = 'block';
+                })
+                .catch(error => {
+                    alert('Complaint ID not found. Please check and try again.');
+                    result.style.display = 'none';
+                });
+            
+            return false;
+        }
+    </script>
+</body>
+</html>

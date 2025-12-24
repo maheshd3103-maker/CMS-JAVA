@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - CMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar-header {
+            padding: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom: 1px solid #34495e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .sidebar-header:hover {
+            background: #34495e;
+        }
+        .nav-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        .nav-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-item:hover {
+            background: #34495e;
+        }
+        .nav-item.active {
+            background: #34495e;
+            border-left: 4px solid white;
+        }
+        .logout {
+            padding: 15px 20px;
+            background: #e74c3c;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .logout:hover {
+            background: #c0392b;
+        }
+        .main-content {
+            flex: 1;
+            background: #ecf0f1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #7f8c8d;
+        }
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .info-card h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+        }
+        .info-row {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 200px;
+        }
+        .info-value {
+            color: #555;
+        }
+        .action-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .action-button:hover {
+            background: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <div class="sidebar-header" th:onclick="'window.location.href=\'' + @{/user/dashboard(userId=${user.userId})} + '\''">CMS Dashboard</div>
+            <div class="nav-menu">
+                <div class="nav-item active" th:onclick="'window.location.href=\'' + @{/user/dashboard(userId=${user.userId})} + '\''">Account Information</div>
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/complaint/raise(userId=${user.userId})} + '\''">Raise a Complaint</div>
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/complaint/my-complaints(userId=${user.userId})} + '\''">My Complaints</div>
+                <div class="nav-item" th:onclick="'window.location.href=\'' + @{/complaint/track(userId=${user.userId})} + '\''">Track the Complaint</div>
+            </div>
+        </div>
+        <div class="logout" th:onclick="'window.location.href=\'' + @{/} + '\''">Logout</div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Welcome, <span th:text="${user != null ? user.username : 'User'}">User</span>!</h1>
+            <p>Manage your account and complaints from your dashboard</p>
+            <a th:href="@{/complaint/raise(userId=${user.userId})}" class="action-button">Raise a Complaint</a>
+        </div>
+        <div class="info-card">
+            <h2>Account Details</h2>
+            <div class="info-row">
+                <div class="info-label">Account Number:</div>
+                <div class="info-value" th:text="${user != null ? user.accountNumber : 'N/A'}">1234567890</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">User Name:</div>
+                <div class="info-value" th:text="${user != null ? user.username : 'N/A'}">John Doe</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Account Balance:</div>
+                <div class="info-value" th:text="${user != null ? '₹' + user.accountBalance : 'N/A'}">₹5,000.00</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Account Type:</div>
+                <div class="info-value" th:text="${user != null ? user.accountType : 'N/A'}">Premium</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

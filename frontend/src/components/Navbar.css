@@ -1,0 +1,57 @@
+.site-navbar {
+  background: rgba(0,0,0,0.2);
+  padding: 20px 50px;
+}
+
+.site-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.auth-buttons a {
+  padding: 10px 25px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.btn-login {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-login:hover {
+  background: white;
+  color: #2c3e50;
+}
+
+.btn-signin {
+  background: white;
+  color: #2c3e50;
+}
+
+.btn-signin:hover {
+  background: #ecf0f1;
+}
+
+@media (max-width: 600px) {
+  .auth-buttons { gap: 8px; }
+  .auth-buttons a { padding: 8px 14px; font-size: 14px; }
+}

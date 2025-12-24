@@ -1,0 +1,2 @@
+-- No default users created
+-- Users must register through the application
